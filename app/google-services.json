@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "668485081189",
+    "firebase_url": "https://anglesliftdrivers.firebaseio.com",
+    "project_id": "anglesliftdrivers",
+    "storage_bucket": "anglesliftdrivers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668485081189:android:ee7dbfbcba19d261",
+        "android_client_info": {
+          "package_name": "angles.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668485081189-r8897hfj6nbmh24t5tn0gqu2nmog0kvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "angles.com",
+            "certificate_hash": "7d73c0bf5213cc82600dfca7484c28da7cb9729e"
+          }
+        },
+        {
+          "client_id": "668485081189-a7d8v61b0sunhgvobemod82jldi2fkq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8V5ST6m49Ndq6g3hjGfen1MqZyKj6bq4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668485081189-a7d8v61b0sunhgvobemod82jldi2fkq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

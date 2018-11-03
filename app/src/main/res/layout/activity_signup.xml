@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signup_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/angel_bg"
+    tools:context=".login.SignupActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/general_padding_20"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_car" />
+
+            <EditText
+                android:id="@+id/edt_signup_first_nm"
+                android:hint="@string/fnm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:inputType="text"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/edt_signup_last_nm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/lnm"
+                android:inputType="text"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/edt_signup_mno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/mobile"
+                android:inputType="number"
+                android:maxLength="10"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/edt_signup_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/email"
+                android:inputType="textWebEmailAddress"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/edt_signup_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/dob"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/country"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+            <Spinner
+                android:id="@+id/spi_signup_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des"
+                android:layout_marginTop="@dimen/general_padding_10">
+
+            </Spinner>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/state"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+            <Spinner
+                android:id="@+id/spi_signup_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des"
+                android:layout_marginTop="@dimen/general_padding_10">
+
+            </Spinner>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/city"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+            <Spinner
+                android:id="@+id/spi_signup_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des"
+                android:layout_marginTop="@dimen/general_padding_10">
+
+            </Spinner>
+
+            <EditText
+                android:id="@+id/edt_signup_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/edt_signup_password_conf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/password_conf"
+                android:inputType="textPassword"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/btn_signup_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_30"
+                android:background="@drawable/btn_yellow"
+                android:padding="@dimen/general_padding_15"
+                android:text="@string/continu"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/img_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_30"
+                android:background="@drawable/btn_yellow"
+                android:padding="@dimen/general_padding_15"
+                android:text="@string/continu"
+                android:textColor="@color/white"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

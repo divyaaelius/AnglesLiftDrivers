@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:padding="@dimen/general_padding_15">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ProgressBar
+            android:id="@+id/view_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:progressBackgroundTint="@color/colorPrimary"
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/drawable_circularprogressbar" />
+
+
+        <TextView
+            android:id="@+id/tv_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/pickup"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/general_padding_10"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/general_padding_10">
+
+            <ImageView
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:background="@color/black"
+                android:gravity="center"
+                android:padding="@dimen/general_padding_10"
+                android:src="@drawable/ic_near_me"
+                android:text="@string/icon_location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16" />
+
+            <TextView
+                android:id="@+id/mypickloc"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center|left"
+                android:hint="@string/pick"
+                android:paddingLeft="@dimen/general_padding_20"
+                android:paddingRight="@dimen/general_padding_20"
+                android:text="@string/pick"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_18">
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:background="@color/black"
+                android:gravity="center"
+                android:padding="@dimen/general_padding_10"
+                android:src="@drawable/ic_location"
+                android:text="@string/icon_location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16" />
+
+            <TextView
+                android:id="@+id/driverDropLoc"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center|left"
+                android:hint="@string/drop"
+                android:paddingLeft="@dimen/general_padding_20"
+                android:paddingRight="@dimen/general_padding_20"
+                android:text="@string/drop"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_18">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:background="@color/black"
+                android:gravity="center"
+                android:padding="@dimen/general_padding_10"
+                android:src="@drawable/ic_money"
+                android:text="@string/icon_location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center|left"
+                android:hint="@string/drop"
+                android:paddingLeft="@dimen/general_padding_20"
+                android:paddingRight="@dimen/general_padding_20"
+                android:text="@string/rs"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_18">
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:background="@color/black"
+                android:gravity="center"
+                android:padding="@dimen/general_padding_10"
+                android:src="@drawable/ic_locations"
+                android:text="@string/icon_location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center|left"
+                android:hint="@string/rs"
+                android:paddingLeft="@dimen/general_padding_20"
+                android:paddingRight="@dimen/general_padding_20"
+                android:text="@string/km"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_18">
+
+            </TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ng.max.slideview.SlideView
+            android:id="@+id/btn_accept_req"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_padding_5"
+            app:sv_buttonBackgroundColor="@color/white"
+            app:sv_buttonImage="@drawable/ic_right"
+            app:sv_slideBackgroundColor="@color/white"
+            app:sv_slideText="@string/accept"
+            app:sv_slideTextColor="@color/black" />
+
+        <ng.max.slideview.SlideView
+            android:id="@+id/btn_reject_req"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_padding_5"
+            app:sv_buttonBackgroundColor="@color/white"
+            app:sv_buttonImage="@drawable/ic_right"
+            app:sv_reverseSlide="true"
+            android:visibility="invisible"
+            app:sv_slideBackgroundColor="@color/white"
+            app:sv_slideText="@string/reect"
+            app:sv_slideTextColor="@color/black" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_button"
+        android:text="@string/reect"
+        android:visibility="invisible" />
+
+
+</LinearLayout>
+
