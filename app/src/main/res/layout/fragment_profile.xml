@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Setting.ProfileFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/general_padding_20"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pref_profile_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_car" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_first_nm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/nm"
+                    android:inputType="text"
+                    android:padding="@dimen/general_padding_15"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_mno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/mobile"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:padding="@dimen/general_padding_15"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/email"
+                    android:inputType="textWebEmailAddress"
+                    android:padding="@dimen/general_padding_15"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/pref_tv_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/dob"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/address"
+                    android:padding="@dimen/general_padding_15"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_lic_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/lic_no"
+                    android:inputType="text"
+                    android:padding="@dimen/general_padding_15"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/pref_lic_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:drawableRight="@drawable/calender"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/lic_img"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/pref_edt_lic_issued_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:drawableRight="@drawable/calender"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/issue_date"
+                android:inputType="text"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/pref_edt_lic_expiry_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:drawableRight="@drawable/calender"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/expiry_date"
+                android:inputType="text"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <RadioGroup
+                android:id="@+id/pref_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/pref_radio_angle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/without_car"
+                    android:padding="@dimen/general_padding_15"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+
+                <RadioButton
+                    android:id="@+id/pref_radio_with_car_angle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/with_car"
+                    android:padding="@dimen/general_padding_15"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/pref_car_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_10"
+                android:background="@drawable/edt_back_des"
+                android:drawableRight="@drawable/calender"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/car_img"
+                android:padding="@dimen/general_padding_15"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="16.0sp"
+                android:textStyle="normal" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_veh_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_20"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/veh_no"
+                    android:inputType="text"
+                    android:padding="@dimen/general_padding_15"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_veh_doc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/veh_doc"
+                    android:inputType="text"
+                    android:padding="@dimen/general_padding_15"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des">
+
+                <EditText
+                    android:id="@+id/pref_edt_veh_detalis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/general_padding_10"
+                    android:background="@drawable/edt_back_des"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/veh_details"
+                    android:inputType="text"
+                    android:maxLines="10"
+                    android:minLines="3"
+                    android:padding="@dimen/general_padding_15"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="16.0sp"
+                    android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/pref_btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_30"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/general_padding_15"
+                android:text="@string/update"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/img_txt"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_padding_30"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/general_padding_15"
+                android:text="@string/update"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

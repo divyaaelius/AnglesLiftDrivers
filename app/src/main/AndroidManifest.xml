@@ -71,6 +71,7 @@
         <activity android:name=".tryslider.SteeperActivity" />
         <activity android:name=".my_trip.MyTripHistoryActivity"></activity>
         <activity android:name=".Setting.ChangePasswordActivity"/>
+        <activity android:name=".Setting.SettingsActivity"/>
     </application>
 
 </manifest>

@@ -44,6 +44,7 @@ import android.widget.Toast;
 import java.util.concurrent.TimeUnit;
 
 import angles.com.Setting.ChangePasswordActivity;
+import angles.com.Setting.SettingsActivity;
 import angles.com.home.MapFragment;
 import angles.com.job.JobFragment;
 import angles.com.my_trip.MyTripHistoryActivity;
@@ -110,8 +111,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
 
     // change the main fragement in to activity
     public void gotoMapFragmenta() {
@@ -221,7 +220,7 @@ return true;
         } else if (id == R.id.nav_sche_tip) {
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(this,ChangePasswordActivity.class));
+            startActivity(new Intent(this,SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

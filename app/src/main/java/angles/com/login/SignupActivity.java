@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,9 +37,9 @@ public class SignupActivity extends AppCompatActivity {
     Context context;
     CircleImageView profile_img;
     EditText edt_signup_first_nm, edt_signup_last_nm, edt_signup_mno, edt_signup_email,
-            edt_signup_password, edt_signup_password_conf;
+            edt_signup_password, edt_signup_password_conf,edt_signup_address;
     Button btn_signup_register;
-    TextView img_details;
+    TextView img_details,tv_signup_dob;
     private Uri filePath;
     String realFilePath="";
 
@@ -59,6 +61,12 @@ public class SignupActivity extends AppCompatActivity {
                 } else {
                     ConstMethod.SelectFile(SignupActivity.this);
                 }
+            }
+        });
+        tv_signup_dob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConstMethod.dateForamtYYYMMDDWithDesh(context,tv_signup_dob);
             }
         });
         register();  // register calling
@@ -123,21 +131,26 @@ public class SignupActivity extends AppCompatActivity {
                 edt_signup_first_nm.requestFocus();
                 edt_signup_first_nm.setError("Enter First Name");
 
-            } else if (TextUtils.isEmpty(edt_signup_last_nm.getText())) {
-                edt_signup_last_nm.requestFocus();
-                edt_signup_last_nm.setError("Enter Last Name");
-
             } else if (TextUtils.isEmpty(edt_signup_mno.getText())) {
                 edt_signup_mno.requestFocus();
                 edt_signup_mno.setError("Enter Mobile No");
 
-            } else if (TextUtils.isEmpty(edt_signup_mno.getText())) {
-                edt_signup_mno.requestFocus();
-                edt_signup_mno.setError("Enter Mobile No");
+            } else if (TextUtils.isEmpty(edt_signup_email.getText())) {
+                edt_signup_email.requestFocus();
+                edt_signup_email.setError("Enter Email");
+
+            } else if (TextUtils.isEmpty(edt_signup_address.getText())) {
+                edt_signup_address.requestFocus();
+                edt_signup_address.setError("Enter Address");
+
+            }else if (TextUtils.isEmpty(tv_signup_dob.getText())) {
+                tv_signup_dob.requestFocus();
+                tv_signup_dob.setError("Select Date Of Birth");
 
             } else if (TextUtils.isEmpty(edt_signup_password.getText())) {
                 edt_signup_password.requestFocus();
                 edt_signup_password.setError("Enter Password");
+
             } else if (TextUtils.isEmpty(edt_signup_password_conf.getText())) {
                 edt_signup_password_conf.requestFocus();
                 edt_signup_password_conf.setError("Enter Conform Password");
@@ -176,6 +189,15 @@ public class SignupActivity extends AppCompatActivity {
 
     private void getUserLogin() {
         LicenceFragment frag = new LicenceFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString(String.valueOf(R.string.b_nm),edt_signup_first_nm.getText().toString());
+        bundle.putString(String.valueOf(R.string.b_mno),edt_signup_mno.getText().toString());
+        bundle.putString(String.valueOf(R.string.b_email),edt_signup_email.getText().toString());
+        bundle.putString(String.valueOf(R.string.b_add),edt_signup_address.getText().toString());
+        bundle.putString(String.valueOf(R.string.b_dob),tv_signup_dob.getText().toString());
+        bundle.putString(String.valueOf(R.string.b_pass),edt_signup_password_conf.getText().toString());
+        bundle.putString(String.valueOf(R.string.b_profile),realFilePath);
+        frag.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.signup_frame, frag).addToBackStack(null).commit();
 
@@ -186,10 +208,11 @@ public class SignupActivity extends AppCompatActivity {
         profile_img = findViewById(R.id.profile_img);
         img_details = findViewById(R.id.img_details);
         edt_signup_first_nm = findViewById(R.id.edt_signup_first_nm);
-        edt_signup_last_nm = findViewById(R.id.edt_signup_last_nm);
         edt_signup_mno = findViewById(R.id.edt_signup_mno);
         edt_signup_email = findViewById(R.id.edt_signup_email);
+        edt_signup_address = findViewById(R.id.edt_signup_address);
         edt_signup_password = findViewById(R.id.edt_signup_password);
+        tv_signup_dob = findViewById(R.id.tv_signup_dob);
         edt_signup_password_conf = findViewById(R.id.edt_signup_password_conf);
         btn_signup_register = findViewById(R.id.btn_signup_register);
 

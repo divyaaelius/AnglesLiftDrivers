@@ -1,6 +1,7 @@
 package angles.com.login.fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -19,8 +20,15 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.HashMap;
+
+import angles.com.AsynceTask.UploadImageAsync;
 import angles.com.MainActivity;
 import angles.com.R;
+import angles.com.utils.Const;
 import angles.com.utils.ConstMethod;
 import angles.com.utils.FilePath;
 
@@ -32,11 +40,13 @@ import static angles.com.utils.Const.PICK_IMAGE_REQUEST;
  */
 public class VehicalServiceFragment extends Fragment {
 
+    String TAG="VehicalServiceFragment";
     ImageView veh_img;
     EditText edt_veh_no, edt_veh_doc, edt_veh_detalis, edt_veh_seater;
     Button btn_driver_register;
     private Uri filePath;
     String realFilePath="";
+    String name,mno,email,add,dob,pass,profile,lic_no,lic_img,lic_isses,lic_exp;
 
     public VehicalServiceFragment() {
         // Required empty public constructor
@@ -50,6 +60,24 @@ public class VehicalServiceFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_vehical, container, false);
 
         initId(v);
+
+        name=getArguments().getString   (String.valueOf(R.string.b_nm));
+        mno=getArguments().getString    (String.valueOf(R.string.b_mno));
+        email=getArguments().getString  (String.valueOf(R.string.b_email));
+        add=getArguments().getString    (String.valueOf(R.string.b_add));
+        dob=getArguments().getString    (String.valueOf(R.string.b_dob));
+        pass=getArguments().getString   (String.valueOf(R.string.b_pass));
+        profile=getArguments().getString(String.valueOf(R.string.b_profile));
+        lic_no=getArguments().getString(String.valueOf(R.string.b_lic_no));
+        lic_img=getArguments().getString(String.valueOf(R.string.b_lic_img));
+        lic_isses=getArguments().getString(String.valueOf(R.string.b_issue_date));
+        lic_exp=getArguments().getString(String.valueOf(R.string.b_exp_date));
+
+        Log.d(TAG,"Bundls value ------->"+"name "+name+" mno "+mno+" email "+email+" add "+add+" dob "+dob
+                +" pass "+pass+" profile "+profile+" lic_no "+lic_no+" lic_img "+lic_img+" lic_isses "+lic_isses
+        +" lic_exp "+lic_exp);
+
+
         imageFetch();
 
         btn_driver_register.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +109,7 @@ public class VehicalServiceFragment extends Fragment {
                } else if (TextUtils.isEmpty(edt_veh_seater.getText())) {
                 edt_veh_seater.requestFocus();
                 edt_veh_seater.setError("Enter Vehicle Seater");
-                    }else{
+                }else{
                 Log.e("Profile Real path", "===============>" + realFilePath);
                 if (realFilePath.equals("") || realFilePath.length() == 0) {
                     Toast.makeText(getContext(), "Select Image", Toast.LENGTH_SHORT).show();
@@ -97,10 +125,73 @@ public class VehicalServiceFragment extends Fragment {
 
     private void VehicalRegister() {
 
+        final ProgressDialog myDialog = ConstMethod.showProgressDialog(getContext(), getResources().getString(R.string.please_wait));
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        HashMap<String, File> hashMap1 = new HashMap<>();
+
+        hashMap.put(Const.Params.DW_MOBILENO,mno);
+        hashMap.put(Const.Params.DW_NAME, name);
+        hashMap.put(Const.Params.DW_EMAIL, email);
+        hashMap.put(Const.Params.DW_ADDRESS, add);
+        hashMap.put(Const.Params.DW_DOB, dob);
+       // hashMap.put(Const.Params.DW_IMAGE, profile);
+        hashMap.put(Const.Params.DW_LICENSE_NUMBER, lic_no);
+        //hashMap.put(Const.Params.DW_LICENSE_PICTURE, lic_img);
+        hashMap.put(Const.Params.DW_LC_DATE, lic_isses);
+        hashMap.put(Const.Params.DW_EXPIRE_DATE, lic_exp);
+        hashMap.put(Const.Params.DW_CAR_NO, edt_veh_no.getText().toString());
+        hashMap.put(Const.Params.DW_CAR_DOCUMENT, edt_veh_doc.getText().toString());
+        hashMap.put(Const.Params.DW_MODEL, edt_veh_detalis.getText().toString());
+        hashMap.put(Const.Params.DW_TYPE, String.valueOf(Const.MOBILETYPE));// 1 for driver with car
+        hashMap.put(Const.Params.PASSWORD, pass);
+        hashMap.put(Const.Params.MOBILE_TYPE, String.valueOf(Const.MOBILETYPE));
+
+
+
+        hashMap1.put(Const.Params.DW_IMAGE, new File(profile));
+        hashMap1.put(Const.Params.DW_CAR_IMAGE, new File(realFilePath));
+        hashMap1.put(Const.Params.DW_LICENSE_PICTURE, new File(lic_img));
+
+
+        ConstMethod.LodDebug(TAG, "url --->" + Const.UrlClient.REGISTER_URL);
+        ConstMethod.LodDebug(TAG, "text hashMap --->" + hashMap.toString());
+        ConstMethod.LodDebug(TAG, "file path hashMap1 --->" + hashMap1.toString());
+
+        UploadImageAsync imageAsync = new UploadImageAsync(Const.UrlClient.REGISTER_URL, hashMap, hashMap1, new UploadImageAsync.OnAsyncResult() {
+            @Override
+            public void onSuccess(String result) {
+                myDialog.dismiss();
+                ConstMethod.LodDebug(TAG, "Result--->" + result);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString(Const.Params.STATUS).equals(Const.Params.TRUE)) {
+
+                        ConstMethod.showToast(getContext(), "Request Submit success");
+                        replaceFragment();
+                    }
+                }  catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(String result) {
+                myDialog.dismiss();
+                ConstMethod.LodDebug(TAG, "Result failed--->" + result);
+
+            }
+        });
+        imageAsync.execute();
+
+    }
+
+    private void replaceFragment() {
         OtpFragment frag = new OtpFragment();
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.veh_frame, frag).addToBackStack(null).commit();
-
     }
 
     private void imageFetch() {

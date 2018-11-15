@@ -22,15 +22,19 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_driver_license1" />
-
-            <AutoCompleteTextView
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_back_des"
+                android:theme="@style/TextLabel">
+            <EditText
                 android:id="@+id/edt_lic_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/general_padding_10"
                 android:background="@drawable/edt_back_des"
                 android:fontFamily="sans-serif-light"
-                android:hint="@string/veh_no"
+                android:hint="@string/lic_no"
                 android:inputType="text"
                 android:padding="@dimen/general_padding_15"
                 android:singleLine="true"
@@ -38,22 +42,7 @@
                 android:textColorHint="@color/white"
                 android:textSize="16.0sp"
                 android:textStyle="normal" />
-
-            <AutoCompleteTextView
-                android:id="@+id/edt_lic_veh_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/general_padding_10"
-                android:background="@drawable/edt_back_des"
-                android:fontFamily="sans-serif-light"
-                android:hint="@string/veh_type"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:padding="@dimen/general_padding_15"
-                android:singleLine="true"
-                android:textSize="16.0sp"
-                android:textStyle="normal" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:id="@+id/edt_lic_issued_date"

@@ -7,6 +7,33 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--shivani 14/11/18-->
+    <string name="change_pass">Change Password</string>
+    <string name="profile">Profile</string>
+    <string name="lic_img">Licence Image</string>
+    <string name="car_img">Car Image</string>
+    <string name="update">Update</string>
+
+
+
+    <!--shivani 13/11/1-->
+    <string name="please_wait">Please Wait</string>
+    <string name="address">Address</string>
+
+    <!-- bundle passing-->
+    <string name="b_nm">b_nm</string>
+    <string name="b_mno">b_mno</string>
+    <string name="b_add">b_add</string>
+    <string name="b_email">b_email</string>
+    <string name="b_dob">b_dob</string>
+    <string name="b_pass">b_pass</string>
+    <string name="b_profile">b_profile</string>
+    <string name="b_lic_no">b_lic_no</string>
+    <string name="b_lic_img">b_lic_img</string>
+    <string name="b_issue_date">b_issue_date</string>
+    <string name="b_exp_date">b_exp_date</string>
+
+
     // 17/10/18
     <string name="settings">Settings</string>
     <string name="my_trip">My Trip</string>
@@ -53,7 +80,7 @@
     <string name="otp">Enter OTP</string>
     <string name="done">Done</string>
     <string name="resend">Resend</string>
-    <string name="fnm">First Name</string>
+    <string name="nm">Name</string>
     <string name="lnm">Last Name</string>
     <string name="continu">Continue</string>
     <string name="lic_no">Licence No.</string>

@@ -35,15 +35,16 @@ import static angles.com.utils.Const.PICK_IMAGE_REQUEST;
  */
 public class LicenceFragment extends Fragment {
 
-
+    String TAG="LicenceFragment";
     ImageView lic_img;
-    AutoCompleteTextView edt_lic_no, edt_lic_veh_type;
+    EditText edt_lic_no;
     TextView edt_lic_issued_date, edt_lic_expiry_date;
     RadioGroup radio_group;
     RadioButton radio_angle,radio_with_car_angle;
     Button btn_lic_register;
     private Uri filePath;
     String realFilePath="";
+    String name,mno,email,add,dob,pass,profile;
     int status;
     boolean validate;
 
@@ -58,6 +59,19 @@ public class LicenceFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_licence, container, false);
         initId(v);
+
+        name=getArguments().getString   (String.valueOf(R.string.b_nm));
+        mno=getArguments().getString    (String.valueOf(R.string.b_mno));
+        email=getArguments().getString  (String.valueOf(R.string.b_email));
+        add=getArguments().getString    (String.valueOf(R.string.b_add));
+        dob=getArguments().getString    (String.valueOf(R.string.b_dob));
+        pass=getArguments().getString   (String.valueOf(R.string.b_pass));
+        profile=getArguments().getString(String.valueOf(R.string.b_profile));
+
+        Log.d(TAG,"Bundls value ------->"+"name "+name+" mno "+mno+" email "+email+" add "+add+" dob "+dob
+        +" pass "+pass+" profile "+profile);
+
+
 
         edt_lic_issued_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +110,19 @@ public class LicenceFragment extends Fragment {
                     } else if (status == 2) {
                         Log.e("status", "================>" + status);
                         VehicalServiceFragment fragment = new VehicalServiceFragment();
+                        Bundle bundle=new Bundle();
+                        bundle.putString(String.valueOf(R.string.b_lic_no),edt_lic_no.getText().toString());
+                        bundle.putString(String.valueOf(R.string.b_lic_img),realFilePath);
+                        bundle.putString(String.valueOf(R.string.b_issue_date),edt_lic_issued_date.getText().toString());
+                        bundle.putString(String.valueOf(R.string.b_exp_date),edt_lic_expiry_date.getText().toString());
+                        bundle.putString(String.valueOf(R.string.b_nm),name);
+                        bundle.putString(String.valueOf(R.string.b_mno),mno);
+                        bundle.putString(String.valueOf(R.string.b_email),email);
+                        bundle.putString(String.valueOf(R.string.b_add),add);
+                        bundle.putString(String.valueOf(R.string.b_dob),dob);
+                        bundle.putString(String.valueOf(R.string.b_pass),pass);
+                        bundle.putString(String.valueOf(R.string.b_profile),profile);
+                        fragment.setArguments(bundle);
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.lic_fragment, fragment).addToBackStack(null).commit();
                     }
@@ -181,11 +208,7 @@ public class LicenceFragment extends Fragment {
                 edt_lic_no.requestFocus();
                 edt_lic_no.setError("Enter Licence Number");
 
-            } else if (TextUtils.isEmpty(edt_lic_veh_type.getText())) {
-                edt_lic_veh_type.requestFocus();
-                edt_lic_veh_type.setError("Enter Vehicle Type");
-
-            } else if (TextUtils.isEmpty(edt_lic_issued_date.getText())) {
+            }  else if (TextUtils.isEmpty(edt_lic_issued_date.getText())) {
                 edt_lic_issued_date.requestFocus();
                 edt_lic_issued_date.setError("Select Licence Issued Date");
                 Toast.makeText(getContext(), "Select Licence Issued Date", Toast.LENGTH_SHORT).show();
@@ -222,7 +245,6 @@ public class LicenceFragment extends Fragment {
     private void initId(View v) {
         lic_img = v.findViewById(R.id.lic_img);
         edt_lic_no = v.findViewById(R.id.edt_lic_no);
-        edt_lic_veh_type = v.findViewById(R.id.edt_lic_veh_type);
         edt_lic_issued_date = v.findViewById(R.id.edt_lic_issued_date);
         edt_lic_expiry_date = v.findViewById(R.id.edt_lic_expiry_date);
         btn_lic_register = v.findViewById(R.id.btn_lic_register);
