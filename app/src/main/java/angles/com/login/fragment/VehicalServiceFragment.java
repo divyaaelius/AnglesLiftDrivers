@@ -94,19 +94,19 @@ public class VehicalServiceFragment extends Fragment {
 
         if (ConstMethod.isInternetOn(getActivity())) {
 
-            if (TextUtils.isEmpty(edt_veh_no.getText())) {
+            if (TextUtils.isEmpty(edt_veh_no.getText().toString())) {
                 edt_veh_no.requestFocus();
                 edt_veh_no.setError("Enter Vehicle Number");
 
-            } else if (TextUtils.isEmpty(edt_veh_doc.getText())) {
+            } else if (TextUtils.isEmpty(edt_veh_doc.getText().toString())) {
                 edt_veh_doc.requestFocus();
                 edt_veh_doc.setError("Enter Vehicle Document");
 
-            } else if (TextUtils.isEmpty(edt_veh_detalis.getText())) {
+            } else if (TextUtils.isEmpty(edt_veh_detalis.getText().toString())) {
                 edt_veh_detalis.requestFocus();
                 edt_veh_detalis.setError("Enter Vehicle Details");
 
-               } else if (TextUtils.isEmpty(edt_veh_seater.getText())) {
+               } else if (TextUtils.isEmpty(edt_veh_seater.getText().toString())) {
                 edt_veh_seater.requestFocus();
                 edt_veh_seater.setError("Enter Vehicle Seater");
                 }else{

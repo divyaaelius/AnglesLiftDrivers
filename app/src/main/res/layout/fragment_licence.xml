@@ -1,126 +1,272 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lic_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/angel_bg"
-    android:orientation="vertical">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".login.fragment.LicenceFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/general_padding_15">
 
-        <LinearLayout
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/lic_img"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/logo1" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/general_padding_20"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
 
-            <ImageView
-                android:id="@+id/lic_img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_driver_license1" />
-            <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="@dimen/general_padding_10">
+
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edt_back_des"
-                android:theme="@style/TextLabel">
-            <EditText
-                android:id="@+id/edt_lic_no"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/general_padding_10"
-                android:background="@drawable/edt_back_des"
-                android:fontFamily="sans-serif-light"
-                android:hint="@string/lic_no"
-                android:inputType="text"
-                android:padding="@dimen/general_padding_15"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="16.0sp"
-                android:textStyle="normal" />
-            </android.support.design.widget.TextInputLayout>
+                android:layout_weight="1.5"
+                custom:cardCornerRadius="@dimen/general_padding_10">
 
-            <TextView
-                android:id="@+id/edt_lic_issued_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/general_padding_10"
-                android:background="@drawable/edt_back_des"
-                android:drawableRight="@drawable/calender"
-                android:fontFamily="sans-serif-light"
-                android:hint="@string/issue_date"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:padding="@dimen/general_padding_15"
-                android:textSize="16.0sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/edt_lic_expiry_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/general_padding_10"
-                android:background="@drawable/edt_back_des"
-                android:drawableRight="@drawable/calender"
-                android:fontFamily="sans-serif-light"
-                android:hint="@string/expiry_date"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:padding="@dimen/general_padding_15"
-                android:textSize="16.0sp"
-                android:textStyle="normal" />
-
-            <RadioGroup
-                android:id="@+id/radio_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/radio_angle"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/general_padding_10"
-                    android:background="@drawable/edt_back_des"
-                    android:fontFamily="sans-serif-light"
-                    android:hint="@string/without_car"
-                    android:padding="@dimen/general_padding_15"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="16.0sp"
-                    android:textStyle="normal" />
+                    android:layout_margin="@dimen/general_padding_10"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="Licence"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
 
-                <RadioButton
-                    android:id="@+id/radio_with_car_angle"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/general_padding_10"
-                    android:background="@drawable/edt_back_des"
-                    android:fontFamily="sans-serif-light"
-                    android:hint="@string/with_car"
-                    android:padding="@dimen/general_padding_15"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="16.0sp"
-                    android:textStyle="normal" />
-            </RadioGroup>
+                    android:layout_marginLeft="@dimen/marg_fivedp"
+                    android:layout_marginTop="@dimen/general_height_50"
+                    android:layout_marginRight="@dimen/marg_fivedp"
+                    android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_lic_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/general_height_50"
-                android:background="@drawable/btn_yellow"
-                android:padding="@dimen/general_padding_15"
-                android:text="@string/continu"
-                android:textColor="@color/black" />
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="vertical">
 
-    </ScrollView>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/state_pressed_rectangle"
+                                android:orientation="horizontal"
+                                android:paddingLeft="60dp">
+
+                                <EditText
+                                    android:id="@+id/edt_lic_no"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/marg_fivedp"
+                                    android:layout_toRightOf="@+id/imgSrc"
+                                    android:background="@color/transparent"
+                                    android:hint="@string/lic_no"
+                                    android:inputType="text"
+                                    android:paddingLeft="@dimen/marg_tendp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="16.0sp"
+                                    android:textStyle="normal" />
+
+                                <requestFocus />
+                            </LinearLayout>
+
+                            <ImageButton
+                                android:id="@+id/imgSrc"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:background="@drawable/state_pressed_ripple"
+                                android:gravity="center"
+
+                                android:text="@string/icon_location"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_16" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/state_pressed_rectangle"
+                                android:orientation="horizontal"
+                                android:paddingLeft="60dp">
+
+                                <TextView
+                                    android:id="@+id/edt_lic_issued_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/marg_fivedp"
+                                    android:layout_toRightOf="@+id/imgSrcdob"
+                                    android:background="@color/transparent"
+                                    android:hint="@string/issue_date"
+                                    android:inputType="datetime"
+                                    android:paddingLeft="@dimen/marg_tendp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="16.0sp"
+                                    android:textStyle="normal" />
+
+
+                            </LinearLayout>
+
+                            <ImageButton
+                                android:id="@+id/imgSrcedob"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:background="@drawable/state_pressed_ripple"
+                                android:gravity="center"
+                                android:text="@string/icon_location"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_16" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/state_pressed_rectangle"
+                                android:orientation="horizontal"
+                                android:paddingLeft="60dp">
+
+                                <TextView
+                                    android:id="@+id/edt_lic_expiry_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/marg_fivedp"
+                                    android:layout_toRightOf="@+id/imgSrcdob"
+                                    android:background="@color/transparent"
+                                    android:hint="@string/expiry_date"
+                                    android:inputType="datetime"
+                                    android:paddingLeft="@dimen/marg_tendp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="16.0sp"
+                                    android:textStyle="normal" />
+
+
+                            </LinearLayout>
+
+                            <ImageButton
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:background="@drawable/state_pressed_ripple"
+                                android:gravity="center"
+                                android:text="@string/icon_location"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_16" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <RadioGroup
+                        android:id="@+id/radio_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/state_pressed_rectangle"
+                        android:padding="@dimen/marg_fifteendp"
+
+                        >
+
+                        <RadioButton
+                            android:id="@+id/radio_angle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/without_car"
+                            android:padding="@dimen/marg_tendp"
+                            android:paddingLeft="@dimen/marg_twentydp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="16.0sp"
+                            android:textStyle="normal" />
+
+                        <RadioButton
+                            android:id="@+id/radio_with_car_angle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/with_car"
+                            android:padding="@dimen/marg_tendp"
+                            android:paddingLeft="@dimen/marg_twentydp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="16.0sp"
+
+                            android:textStyle="normal" />
+                    </RadioGroup>
+
+                    <Button
+                        android:id="@+id/btn_lic_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/marg_tendp"
+                        android:layout_marginTop="@dimen/general_padding_30"
+                        android:background="@drawable/btn_yellow"
+                        android:text="@string/continu"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/drawer_text" />
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </ScrollView>
+    </LinearLayout>
+
 </FrameLayout>

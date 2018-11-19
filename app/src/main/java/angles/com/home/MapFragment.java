@@ -1,13 +1,12 @@
 package angles.com.home;
 
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,18 +14,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.SlidingDrawer;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,17 +51,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import angles.com.AsynceTask.ServiceAsync;
 import angles.com.MainActivity;
 import angles.com.R;
 import angles.com.home.adapter.PlacesAutoCompleteAdapter;
 import angles.com.home.model.Route;
 import angles.com.home.model.Step;
+import angles.com.utils.AppLog;
 import angles.com.utils.Const;
+import angles.com.utils.ConstMethod;
 import angles.com.utils.LocationHelper;
 import angles.com.utils.PolyLineUtils;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import angles.com.utils.PreferenceHelper;
 
 import static angles.com.utils.Const.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
@@ -101,6 +96,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     Switch check_login;
     TextView txt_login;
     int islogin;
+    private PreferenceHelper preferenceHelper;
+
     public MapFragment() {
         // Required empty public constructor
     }
@@ -121,6 +118,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         bindMethode();
         return view;
     }
+
     private void bindMethode() {
         btn_mylocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +127,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                     LatLng latLang = new LatLng(myLocation.getLatitude(),
                             myLocation.getLongitude());
 
-                    if(markerSource==null){
+                    if (markerSource == null) {
                         setMarker(latLang);
                     }
                     animateCameraToMarker(latLang, true);
@@ -140,17 +138,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         });
 
 
-
         check_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean bChecked) {
                 if (bChecked) {
                     txt_login.setText("online");
-                    islogin=1;
+                    islogin = 1;
+                    preferenceHelper.putDriverStatus(true);
                 } else {
                     txt_login.setText("offline");
-                    islogin=0;
+                    islogin = 2;
+                    preferenceHelper.putDriverStatus(false);
+
                 }
+
+                mdChangeStatus(islogin);
             }
         });
 
@@ -158,15 +160,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
     public void setMarker(LatLng latLng) {
-        if (mMap!=null)
-        { markerSource = mMap.addMarker(new MarkerOptions()
-                .position(
-                        new LatLng(latLng.latitude,
-                                latLng.longitude))
-                .title(activity.getResources().getString(
-                        R.string.text_source_pin_title))
-                .icon(BitmapDescriptorFactory
-                        .fromResource(R.drawable.pin_client)));
+        if (mMap != null) {
+            markerSource = mMap.addMarker(new MarkerOptions()
+                    .position(
+                            new LatLng(latLng.latitude,
+                                    latLng.longitude))
+                    .title(activity.getResources().getString(
+                            R.string.text_source_pin_title))
+                    .icon(BitmapDescriptorFactory
+                            .fromResource(R.drawable.pin_client)));
 
         }
 
@@ -241,10 +243,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
 
     private void intiId(View view) {
+        preferenceHelper = new PreferenceHelper(activity);
         btn_mylocation = view.findViewById(R.id.btn_mylocation);
-        check_login=view.findViewById(R.id.check_login);
-        txt_login=view.findViewById(R.id.txt_login);
-       // mapFragment.getMapAsync(this);
+        check_login = view.findViewById(R.id.check_login);
+        txt_login = view.findViewById(R.id.txt_login);
+        // mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -253,8 +256,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         locHelper = new LocationHelper(getContext());
         locHelper.setLocationReceivedLister(this);
         locHelper.onStart();
-    }
 
+        mdGetStatus();
+        AppLog.Log(TAG, " activity status " + preferenceHelper.getDriverStatus());
+        check_login.setChecked(preferenceHelper.getDriverStatus());
+    }
 
 
     private void BindMap(View view) {
@@ -365,7 +371,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             curretLatLng = latLang;
             Log.d(TAG, "*** onConntected curretLatLng" + curretLatLng);
             setMarker(latLang);
-            animateCameraToMarker(curretLatLng,false);
+            animateCameraToMarker(curretLatLng, false);
             //  getAllProviders(latLang);
             animateCameraToMarker(latLang, false);
             //   getAddressFromLocation(latLang, etSource, activity);
@@ -400,9 +406,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Log.d(TAG, "*** drawPath " + sourceLat + " desination lat" + destinationLat);
 
 
-
     }
-
 
 
     public void drawPath(LatLng sourceLat, LatLng destinationLat) {
@@ -456,7 +460,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             try {
                 jObject = new JSONObject(jsonData[0]);
                 Log.d(TAG, "*** ParserTask" + jObject.toString());
-                routes=jObject.toString();
+                routes = jObject.toString();
               /*  DirectionsJSONParser parser = new DirectionsJSONParser();
 
                 routes = parser.parse(jObject);*/
@@ -613,7 +617,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         String mapKey = getString(R.string.google_maps_key);
 
         // Building the url to the web service +"&key="+mapKey
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters +"&key="+mapKey;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + mapKey;
         Log.d(TAG, "*** getDirectionsUrl " + url);
 
 
@@ -654,6 +658,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         }
         return data;
     }
+
     private LatLng getLocationFromAddress(final String place) {
         LatLng loc = null;
         Geocoder gCoder = new Geocoder(getActivity());
@@ -669,4 +674,86 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         return loc;
     }
 
+    private void mdChangeStatus(int isOnline) {
+
+        final ProgressDialog myDialog = ConstMethod.showProgressDialog(activity, getResources().getString(R.string.please_wait));
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendQueryParameter(Const.Params.ID, preferenceHelper.getuserDetailsid());
+        builder.appendQueryParameter(Const.Params.STATUS, isOnline + "");
+
+        Log.e(TAG, "Url *** " + Const.UrlClient.SET_DRIVER_CAR_STATUS);
+        Log.e(TAG, "param  ***" + builder.toString());
+
+        new ServiceAsync(Const.UrlClient.SET_DRIVER_CAR_STATUS, new ServiceAsync.OnAsyncResult() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d(TAG, "result **** > " + result);
+                myDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    //Toast.makeText(this, "Incorrect Login", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String result) {
+                myDialog.dismiss();
+                Log.d(TAG, "result ----------> " + result);
+            }
+
+        }, builder).execute();
+        // startActivity(new Intent(context, MainActivity.class));
+    }
+
+    private void mdGetStatus() {
+
+        final ProgressDialog myDialog = ConstMethod.showProgressDialog(activity, getResources().getString(R.string.please_wait));
+
+        Uri.Builder builder = new Uri.Builder();
+        // builder.appendQueryParameter(Const.Params.IDENTITY, id);
+        // builder.appendQueryParameter(Const.Params.PASSWORD, pass);
+
+        Log.e(TAG, "url *** " + Const.UrlClient.GET_DRIVER_STATUS + preferenceHelper.getuserDetailsid());
+        Log.e(TAG, "param ***  " + builder.toString());
+
+        new ServiceAsync(Const.UrlClient.GET_DRIVER_STATUS + preferenceHelper.getuserDetailsid(), new ServiceAsync.OnAsyncResult() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d(TAG, "result ----------> " + result);
+                myDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+
+                    JSONObject onlineObj = jsonObject.getJSONObject(Const.Params.ONLINE_OFFLINE);
+                    if (onlineObj != null) {
+                        if (onlineObj.getString(Const.Params.DW_STATUS).equals("1")) {
+                            preferenceHelper.putDriverStatus(true);
+                            //check_login.setChecked(true);
+                        } else if (onlineObj.getString(Const.Params.DW_STATUS).equals("2")) {
+                            preferenceHelper.putDriverStatus(false);
+
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    //Toast.makeText(this, "Incorrect Login", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String result) {
+                myDialog.dismiss();
+                Log.d(TAG, "result ----------> " + result);
+            }
+
+        }, builder).execute();
+        // startActivity(new Intent(context, MainActivity.class));
+    }
 }

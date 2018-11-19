@@ -127,31 +127,31 @@ public class SignupActivity extends AppCompatActivity {
 
         if (ConstMethod.isInternetOn(this)) {
 
-            if (TextUtils.isEmpty(edt_signup_first_nm.getText())) {
+            if (TextUtils.isEmpty(edt_signup_first_nm.getText().toString())) {
                 edt_signup_first_nm.requestFocus();
                 edt_signup_first_nm.setError("Enter First Name");
 
-            } else if (TextUtils.isEmpty(edt_signup_mno.getText())) {
+            } else if (TextUtils.isEmpty(edt_signup_mno.getText().toString())) {
                 edt_signup_mno.requestFocus();
                 edt_signup_mno.setError("Enter Mobile No");
 
-            } else if (TextUtils.isEmpty(edt_signup_email.getText())) {
+            } else if (TextUtils.isEmpty(edt_signup_email.getText().toString())) {
                 edt_signup_email.requestFocus();
                 edt_signup_email.setError("Enter Email");
 
-            } else if (TextUtils.isEmpty(edt_signup_address.getText())) {
+            } else if (TextUtils.isEmpty(edt_signup_address.getText().toString())) {
                 edt_signup_address.requestFocus();
                 edt_signup_address.setError("Enter Address");
 
-            }else if (TextUtils.isEmpty(tv_signup_dob.getText())) {
+            }else if (TextUtils.isEmpty(tv_signup_dob.getText().toString())) {
                 tv_signup_dob.requestFocus();
                 tv_signup_dob.setError("Select Date Of Birth");
 
-            } else if (TextUtils.isEmpty(edt_signup_password.getText())) {
+            } else if (TextUtils.isEmpty(edt_signup_password.getText().toString())) {
                 edt_signup_password.requestFocus();
                 edt_signup_password.setError("Enter Password");
 
-            } else if (TextUtils.isEmpty(edt_signup_password_conf.getText())) {
+            } else if (TextUtils.isEmpty(edt_signup_password_conf.getText().toString())) {
                 edt_signup_password_conf.requestFocus();
                 edt_signup_password_conf.setError("Enter Conform Password");
 
@@ -159,12 +159,13 @@ public class SignupActivity extends AppCompatActivity {
                 if (edt_signup_password.getText().toString().equals(edt_signup_password_conf.getText().toString())) {
                     if (ConstMethod.isValidEmailAddress(edt_signup_email.getText().toString())) {
 
-                        Log.e("Profile Real path","===============>"+realFilePath);
+                      /*  Log.e("Profile Real path","===============>"+realFilePath);
                         if (realFilePath.equals("") || realFilePath.length()==0) {
                             Toast.makeText(this, "Select Image", Toast.LENGTH_SHORT).show();
                         } else {
-                            getUserLogin();
-                        }
+
+                        }*/
+                        getUserLogin();
                     } else {
                         edt_signup_email.requestFocus();
                         edt_signup_email.setError("Enter Valid Email");
@@ -206,7 +207,7 @@ public class SignupActivity extends AppCompatActivity {
     private void init() {
 
         profile_img = findViewById(R.id.profile_img);
-        img_details = findViewById(R.id.img_details);
+        //img_details = findViewById(R.id.img_details);
         edt_signup_first_nm = findViewById(R.id.edt_signup_first_nm);
         edt_signup_mno = findViewById(R.id.edt_signup_mno);
         edt_signup_email = findViewById(R.id.edt_signup_email);

@@ -1,0 +1,426 @@
+package angles.com.locationupdate;
+
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.location.Location;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.TextUtils;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import angles.com.MainActivity;
+import angles.com.R;
+import angles.com.utils.AppLog;
+import angles.com.utils.Const;
+import angles.com.utils.ConstMethod;
+import angles.com.utils.LocationHelper;
+import angles.com.utils.PreferenceHelper;
+
+public class LocationUpdateService extends IntentService implements
+        LocationHelper.OnLocationReceived {
+    String TAG = "LocationUpdateService";
+    private PreferenceHelper preferenceHelper;
+    private LocationHelper locationHelper;
+    private String id, token, latitude, longitude;
+    private static Timer timer;
+    private LatLng latlngPrevious, latlngCurrent;
+    private static boolean isNoRequest;
+    private float bearing;
+
+    public LocationUpdateService() {
+        this("MySendLocationService");
+    }
+
+    public LocationUpdateService(String name) {
+        super("MySendLocationService");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        AppLog.Log(TAG, "onStartCommand*** ");
+        locationHelper = new LocationHelper(this);
+        locationHelper.setLocationReceivedLister(this);
+        locationHelper.onStart();
+        preferenceHelper = new PreferenceHelper(getApplicationContext());
+        id = preferenceHelper.getUserId();
+        token = preferenceHelper.getSessionToken();
+        // if (driverId.equals("")) {
+        // driverId = getDriverID();
+        // }
+        return START_STICKY;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AppLog.Log(TAG, "onCreate*** ");
+
+        if (timer == null) {
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerRequestStatus(),
+                    Const.DELAY_OFFLINE,
+                    Const.TIME_SCHEDULE_OFFLINE);
+
+        }
+    }
+
+    /* {
+
+         if (timer == null) {
+             timer = new Timer();
+             timer.scheduleAtFixedRate(new TimerRequestStatus(),
+                     Const.DELAY_OFFLINE,
+                     Const.TIME_SCHEDULE_OFFLINE);
+
+         }
+
+     }
+ */
+    private class TimerRequestStatus extends TimerTask {
+
+        @Override
+        public void run() {
+
+            if (latlngCurrent != null && latlngPrevious != null) {
+
+                Location locationCurrent = new Location("");
+                Location locationPrevious = new Location("");
+                locationCurrent.setLatitude(latlngCurrent.latitude);
+                locationCurrent.setLongitude(latlngCurrent.longitude);
+                locationPrevious.setLatitude(latlngPrevious.latitude);
+                locationPrevious.setLongitude(latlngPrevious.longitude);
+                if (locationCurrent.distanceTo(locationPrevious) <= 20) {
+                    latlngPrevious = new LatLng(latlngCurrent.latitude,
+                            latlngCurrent.longitude);
+                    AppLog.Log("Check isActive State",
+                            "" + preferenceHelper.getIsActive());
+                    if (isNoRequest && preferenceHelper.getIsActive()) {
+                        generateNotification();
+
+                    }
+
+                }
+            }
+
+        }
+
+    }
+
+    public void generateNotification() {
+        Intent offlineIntent = new Intent(this, MyReceiver.class);
+        offlineIntent.setAction("Go Offline");
+
+        Intent cancelIntent = new Intent(this, MyReceiver.class);
+        cancelIntent.setAction("Go Offline");
+
+        Intent mainIntent = new Intent(this, MainActivity.class);
+
+        PendingIntent mainPIntent = PendingIntent.getActivity(this, 0,
+                mainIntent, 0);
+
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0,
+                offlineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pCancelIntent = PendingIntent.getBroadcast(this, 0,
+                cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification noti = new Notification.Builder(this)
+                .setContentTitle(getResources().getString(R.string.app_name))
+                .setContentText(
+                        getResources().getString(R.string.text_offline_que))
+                .setSmallIcon(R.drawable.is_my_location)
+                .setAutoCancel(true)
+                .setContentIntent(mainPIntent)
+                .addAction(0,
+                        getResources().getString(R.string.text_go_offline),
+                        pIntent)
+                .addAction(0,
+                        getResources().getString(R.string.text_exit_cancel),
+                        pCancelIntent).build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0, noti);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        if (locationHelper != null) {
+            locationHelper.onStop();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLocationReceived(LatLng latlong) {
+
+    }
+
+    private class UploadDataToServer extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            /*try {
+                HttpParams myParams = new BasicHttpParams();
+                HttpConnectionParams.setConnectionTimeout(myParams, 100000);
+                HttpConnectionParams.setSoTimeout(myParams, 100000);
+                HttpClient httpClient = new DefaultHttpClient(myParams);
+                ResponseHandler<String> res = new BasicResponseHandler();
+                HttpPost postMethod = new HttpPost(
+                        AndyConstants.ServiceType.UPDATE_PROVIDER_LOCATION);
+                // HttpRequest httpRequest = new HttpRequest();
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair(
+                        AndyConstants.Params.ID, id));
+                nameValuePairs.add(new BasicNameValuePair(
+                        AndyConstants.Params.TOKEN, token));
+                nameValuePairs.add(new BasicNameValuePair(
+                        AndyConstants.Params.LATITUDE, latitude));
+                nameValuePairs.add(new BasicNameValuePair(
+                        AndyConstants.Params.LONGITUDE, longitude));
+                nameValuePairs.add(new BasicNameValuePair(
+                        AndyConstants.Params.BEARING, bearing + ""));
+                preferenceHelper.putLatitude(Double.parseDouble(latitude));
+                preferenceHelper.putLongitude(Double.parseDouble(longitude));
+
+                postMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                String response = httpClient.execute(postMethod, res);
+                // String response = httpRequest.postData(
+                // AndyConstants.ServiceType.UPDATE_PROVIDER_LOCATION,
+                // nameValuePairs);
+                AppLog.Log("TAG", "location send Response:::" + response);
+
+                JSONObject jsonObject = new JSONObject(response);
+                if (jsonObject.getBoolean("success")) {
+                    if (jsonObject.getString("is_active").equals("1"))
+                        preferenceHelper.putIsActive(true);
+                    else
+                        preferenceHelper.putIsActive(false);
+                }
+
+                return response;
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }*/
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            stopSelf();
+        }
+    }
+
+    private class UploadTripLocationData extends
+            AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+			/*try {
+				HttpParams myParams = new BasicHttpParams();
+				HttpConnectionParams.setConnectionTimeout(myParams, 100000);
+				HttpConnectionParams.setSoTimeout(myParams, 100000);
+				HttpClient httpClient = new DefaultHttpClient(myParams);
+				ResponseHandler<String> res = new BasicResponseHandler();
+				HttpPost postMethod = new HttpPost(
+						AndyConstants.ServiceType.REQUEST_LOCATION_UPDATE);
+				// HttpRequest httpRequest = new HttpRequest();
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+				nameValuePairs.add(new BasicNameValuePair(
+						AndyConstants.Params.ID, id));
+				nameValuePairs.add(new BasicNameValuePair(
+						AndyConstants.Params.TOKEN, token));
+				nameValuePairs.add(new BasicNameValuePair(
+						AndyConstants.Params.LATITUDE, latitude));
+				nameValuePairs.add(new BasicNameValuePair(
+						AndyConstants.Params.LONGITUDE, longitude));
+				nameValuePairs.add(new BasicNameValuePair(
+						AndyConstants.Params.BEARING, bearing + ""));
+
+				// nameValuePairs.add(new BasicNameValuePair(
+				// AndyConstants.Params.DISTANCE, 0 + ""));
+				nameValuePairs.add(new BasicNameValuePair(
+						AndyConstants.Params.REQUEST_ID, preferenceHelper
+								.getRequestId() + ""));
+				// double dist;
+				AppLog.Log("ID", id);
+				AppLog.Log("Token", token);
+				// AppLog.Log("Latitude", latitude);
+				// AppLog.Log("Longitude", longitude);
+
+				AppLog.Log("Request id", "" + preferenceHelper.getRequestId());
+
+				// dist = AndyUtils.distance(preferenceHelper.getLatitude(),
+				// preferenceHelper.getLongitude(),
+				// Double.parseDouble(latitude),
+				// Double.parseDouble(longitude), 'K');
+
+				// AppLog.Log("50 meter vadu distance", "" + dist);
+
+				postMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+				String response = httpClient.execute(postMethod, res);
+				// String response = httpRequest.postData(
+				// AndyConstants.ServiceType.UPDATE_PROVIDER_LOCATION,
+				// nameValuePairs);
+				AppLog.Log("TAG", "request location send Response:::"
+						+ response);
+				JSONObject jsonObject = new JSONObject(response);
+				if (jsonObject.getBoolean("success")) {
+					preferenceHelper.putDistance(Float.parseFloat(jsonObject
+							.getString(AndyConstants.Params.DISTANCE)));
+					preferenceHelper.putRequestTime(jsonObject.getLong(AndyConstants.Params.TIME));
+					preferenceHelper.putUnit(jsonObject
+							.getString(AndyConstants.Params.UNIT));
+					preferenceHelper
+							.putClientDestination(new LatLng(
+									jsonObject
+											.getDouble(AndyConstants.Params.DESTINATION_LATITUDE),
+									jsonObject
+											.getDouble(AndyConstants.Params.DESTINATION_LONGITUDE)));
+					// preferenceHelper
+					// .putDestinationLatitude(jsonObject
+					// .getString(AndyConstants.Params.DESTINATION_LATITUDE));
+					// preferenceHelper
+					// .putDestinationLongitude(jsonObject
+					// .getString(AndyConstants.Params.DESTINATION_LONGITUDE));
+
+				} else {
+					preferenceHelper.putDistance(Float.parseFloat("0.00"));
+					preferenceHelper.putRequestTime(0);
+					preferenceHelper.putUnit(jsonObject
+							.getString(AndyConstants.Params.UNIT));
+
+					preferenceHelper
+							.putClientDestination(new LatLng(
+									jsonObject
+											.getDouble(AndyConstants.Params.DESTINATION_LATITUDE),
+									jsonObject
+											.getDouble(AndyConstants.Params.DESTINATION_LONGITUDE)));
+				}
+				if (!jsonObject.getBoolean("success"))
+					if (jsonObject.getInt("is_cancelled") == 1) {
+						preferenceHelper.clearRequestData();
+						Intent i = new Intent(LocationUpdateService.this,
+								MapActivity.class);
+						i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						startActivity(i);
+					}
+
+				return response;
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}*/
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            stopSelf();
+            // Change by Elluminati elluminati.in
+            locationHelper.onStop();
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.automated.taxinow.driver.locationupdate.LocationHelper.OnLocationReceived
+     * #onLocationReceived(android.location.Location)
+     */
+    @Override
+    public void onLocationReceived(Location location) {
+        LatLng latlong = locationHelper.getLatLng(location);
+        // AppLog.Log("TAG", "onLocationReceived Lat : " + latlong.latitude
+        // + " , long : " + latlong.longitude);
+        if (latlong != null) {
+            preferenceHelper
+                    .putWalkerLatitude(String.valueOf(latlong.latitude));
+            preferenceHelper.putWalkerLongitude(String
+                    .valueOf(latlong.longitude));
+            latlngCurrent = new LatLng(latlong.latitude, latlong.longitude);
+            if (latlngPrevious == null) {
+                latlngPrevious = new LatLng(latlong.latitude, latlong.longitude);
+            }
+            AppLog.Log(TAG, "onLocationReceived*** " + latlong.latitude + " lonitude  " + latlong.longitude + " bearing " + location.getBearing());
+
+        }
+        if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(token)
+                && latlong != null) {
+
+            latitude = String.valueOf(latlong.latitude);
+            longitude = String.valueOf(latlong.longitude);
+            bearing = location.getBearing();
+
+
+		/*	if (!ConstMethod.isNetworkAvailable(getApplicationContext())) {
+				// AndyUtils.showToast(
+				// getResources().getString(R.string.toast_no_internet),
+				// getApplicationContext());
+				return;
+			}*/
+
+            if (preferenceHelper.getRequestId() == Const.NO_REQUEST) {
+
+                isNoRequest = true;
+                new UploadDataToServer().execute();
+            } else {
+                isNoRequest = false;
+                new UploadTripLocationData().execute();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.automated.taxinow.driver.locationupdate.LocationHelper.OnLocationReceived
+     * #onConntected(android.os.Bundle)
+     */
+    @Override
+    public void onConntected(Bundle bundle) {
+
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.automated.taxinow.driver.locationupdate.LocationHelper.OnLocationReceived
+     * #onConntected(android.location.Location)
+     */
+    @Override
+    public void onConntected(Location location) {
+
+    }
+
+
+}

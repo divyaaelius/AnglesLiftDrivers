@@ -204,16 +204,16 @@ public class LicenceFragment extends Fragment {
 
         if (ConstMethod.isInternetOn(getActivity())) {
 
-            if (TextUtils.isEmpty(edt_lic_no.getText())) {
+            if (TextUtils.isEmpty(edt_lic_no.getText().toString())) {
                 edt_lic_no.requestFocus();
                 edt_lic_no.setError("Enter Licence Number");
 
-            }  else if (TextUtils.isEmpty(edt_lic_issued_date.getText())) {
+            }  else if (TextUtils.isEmpty(edt_lic_issued_date.getText().toString())) {
                 edt_lic_issued_date.requestFocus();
                 edt_lic_issued_date.setError("Select Licence Issued Date");
                 Toast.makeText(getContext(), "Select Licence Issued Date", Toast.LENGTH_SHORT).show();
 
-            } else if (TextUtils.isEmpty(edt_lic_expiry_date.getText())) {
+            } else if (TextUtils.isEmpty(edt_lic_expiry_date.getText().toString())) {
                 edt_lic_expiry_date.requestFocus();
                 edt_lic_expiry_date.setError("Select Licence Expiry Date");
                 Toast.makeText(getContext(), "Select Licence Expiry Date", Toast.LENGTH_SHORT).show();

@@ -51,7 +51,10 @@ public class PreferenceHelper {
     private final String PROFILE_IMAGE = "dw_image";
     private final String ROLE_ID = "role_id";
     private final String DRIVER_TYPE = "dw_type";
-
+    private final String IS_ACTIVE = "is_active";
+    private final String IS_OFFLINE = "is_offline";
+    private final String WALKER_LATITUDE = "walkerlatitude";
+    private final String WALKER_LONGITUDE = "walkerlongitude";
 
     public PreferenceHelper(Context context) {
         app_prefs = context.getSharedPreferences(Const.PREF_NAME,
@@ -130,11 +133,11 @@ public class PreferenceHelper {
         edit.commit();
     }
 
-    public String getDW_USERDETAILS_ID() {
+    public String getuserDetailsid() {
         return  app_prefs.getString(DW_USERDETAILS_ID, null);
     }
 
-    public void putDW_USERDETAILS_ID(String user_details_id) {
+    public void putUserDetailsId(String user_details_id) {
         Editor edit = app_prefs.edit();
         edit.putString(DW_USERDETAILS_ID, user_details_id);
         edit.commit();
@@ -253,13 +256,13 @@ public class PreferenceHelper {
 
     }
 
-    public void putDeviceToken(String deviceToken) {
+    public void putFirebaseToken(String deviceToken) {
         Editor edit = app_prefs.edit();
         edit.putString(DEVICE_TOKEN, deviceToken);
         edit.commit();
     }
 
-    public String getDeviceToken() {
+    public String getFirebaseToken() {
         return app_prefs.getString(DEVICE_TOKEN, null);
 
     }
@@ -490,4 +493,45 @@ public class PreferenceHelper {
     public String getRequestCreatedTime() {
         return app_prefs.getString(CURRENT_TRIP_TIME, "");
     }
+
+
+    public boolean getIsActive() {
+        return app_prefs.getBoolean(IS_ACTIVE, false);
+    }
+
+    public void putIsActive(boolean isActive) {
+        Editor edit = app_prefs.edit();
+        edit.putBoolean(IS_ACTIVE, isActive);
+        edit.commit();
+    }
+    public boolean getDriverStatus() {
+        return app_prefs.getBoolean(IS_OFFLINE, false);
+    }
+
+    public void putDriverStatus(boolean offline) {
+        Editor edit = app_prefs.edit();
+        edit.putBoolean(IS_OFFLINE, offline);
+        edit.commit();
+    }
+
+    public void putWalkerLatitude(String latitude) {
+        Editor edit = app_prefs.edit();
+        edit.putString(WALKER_LATITUDE, latitude);
+        edit.commit();
+    }
+
+    public String getWalkerLatitude() {
+        return app_prefs.getString(WALKER_LATITUDE, null);
+    }
+
+    public void putWalkerLongitude(String longitude) {
+        Editor edit = app_prefs.edit();
+        edit.putString(WALKER_LONGITUDE, longitude);
+        edit.commit();
+    }
+
+    public String getWalkerLongitude() {
+        return app_prefs.getString(WALKER_LONGITUDE, null);
+    }
+
 }
