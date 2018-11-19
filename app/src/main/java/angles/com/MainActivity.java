@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
             intentFilter = new IntentFilter();
             intentFilter.addAction("ALERT_BROADCAST");
             registerReceiver(broadcastReceiver, intentFilter);
-            startLocationUpdateService();
+            //startLocationUpdateService();
 
         } else {
             ConstMethod.NetworkAlert(this);
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //      mLocationPermissionGranted = true;
-                    startLocationUpdateService();
+                    //startLocationUpdateService();
 
                 } else {
                     finish();
