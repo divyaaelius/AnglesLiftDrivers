@@ -7,9 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +39,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_OK;
 import static angles.com.utils.Const.PICK_IMAGE_REQUEST;
 import static angles.com.utils.Const.STORAGE_PERMISSION_CODE;
-import static angles.com.utils.Const.UrlClient.BASE_URL_IMG;
 import static angles.com.utils.Const.UrlClient.PROFILE_IMG;
 
 /**
@@ -114,7 +111,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
         final ProgressDialog myDialog = ConstMethod.showProgressDialog(getActivity(), getResources().getString(R.string.please_wait));
 
-        String id = new PreferenceHelper(getContext()).getDW_USERDETAILS_ID();
+        String id = new PreferenceHelper(getContext()).getuserDetailsid();
         Uri.Builder builder = new Uri.Builder();
 
         Log.e(TAG, Const.UrlClient.GET_PROFILE_DATA+id);
@@ -288,7 +285,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
         if(status==2){
             final ProgressDialog myDialog = ConstMethod.showProgressDialog(getContext(), getResources().getString(R.string.please_wait));
-            String id = new PreferenceHelper(getContext()).getDW_USERDETAILS_ID();
+            String id = new PreferenceHelper(getContext()).getuserDetailsid();
 
             HashMap<String, String> hashMap = new HashMap<>();
             HashMap<String, File> hashMap1 = new HashMap<>();

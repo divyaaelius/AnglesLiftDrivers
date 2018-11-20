@@ -34,19 +34,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         ConstMethod.LodDebug(TAG, "From: " + remoteMessage.getFrom());
-        ConstMethod.LodDebug(TAG, "Message noti : " + remoteMessage.getNotification().getBody());
-
+//        ConstMethod.LodDebug(TAG, "Message noti : " + remoteMessage.getNotification().getBody());
+//{smallIcon=small_icon, sound=1, title=this is the title, vibrate=1, recorde_id=102, largeIcon=large_icon, message=this is the demo, tickerText=Ticker text here...Ticker text here...Ticker text here}
         ConstMethod.LodDebug(TAG, "Message data  " + remoteMessage.getData());
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-          //  Log.d(TAG, "Message data data: " + remoteMessage.getData().get("message"));
+            //  Log.d(TAG, "Message data data: " + remoteMessage.getData().get("message"));
             try {
-                JSONObject jobPush=new JSONObject(remoteMessage.getData());
+                JSONObject jobPush = new JSONObject(remoteMessage.getData());
                 String message = jobPush.getString("message");
                 sendNotification(message);
 
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -63,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     //It is same as we did in earlier posts
     private void sendNotification(String messageBody) {
         ConstMethod.LodDebug(TAG, "Message data sendNotification msg: " + messageBody);
-      //  pHelper=new PreferHelper(this);
+        //  pHelper=new PreferHelper(this);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -84,7 +83,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0, notificationBuilder.build());
     }
-
 
 
 }

@@ -72,6 +72,9 @@
         <activity android:name=".my_trip.MyTripHistoryActivity"></activity>
         <activity android:name=".Setting.ChangePasswordActivity"/>
         <activity android:name=".Setting.SettingsActivity"/>
+        <receiver android:name="angles.com.locationupdate.MyReceiver"/>
+        <service
+            android:name="angles.com.locationupdate.LocationUpdateService"/>
     </application>
 
 </manifest>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Angles Lift Drivers</string>
+    <string name="app_name">AngleLift Driver</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -13,7 +13,6 @@
     <string name="lic_img">Licence Image</string>
     <string name="car_img">Car Image</string>
     <string name="update">Update</string>
-
 
 
     <!--shivani 13/11/1-->
@@ -156,5 +155,14 @@
     <string name="country">Country</string>
     <string name="state">State</string>
     <string name="city">City</string>
+
+
+    <string name="text_go_offline">Go Offline</string>
+    <string name="text_go_online">Go Online</string>
+    <string name="text_offline">Offline</string>
+    <string name="text_offline_que">Do you want to go offline?</string>
+    <string name="text_confirm">CONFIRM</string>
+    <string name="text_exit_ok">OK</string>
+    <string name="text_exit_cancel">CANCEL</string>
 
 </resources>

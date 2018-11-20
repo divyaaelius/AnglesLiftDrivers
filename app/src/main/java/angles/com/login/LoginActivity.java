@@ -16,12 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,12 +30,12 @@ import angles.com.utils.PreferenceHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
-    String TAG="LoginActivity";
+    String TAG = "LoginActivity";
     Context context;
     EditText edt_login_mno, edt_login_pass;
     Button btn_login_signin;
-    Button  sign_in_button_google;
-    TextView btn_login_signup,btn_login_forget_pass;
+    Button sign_in_button_google;
+    TextView btn_login_signup, btn_login_forget_pass;
     int RC_SIGN_IN = 1;
     GoogleSignInClient mGoogleSignInClient;
     private PreferenceHelper prefHelp;
@@ -70,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity(new Intent(context,SignupActivity.class));
+                startActivity(new Intent(context, SignupActivity.class));
             }
         });
 
@@ -78,29 +73,29 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getValidatiion() {
 
-                if (ConstMethod.isInternetOn(LoginActivity.this)) {
-                    if (TextUtils.isEmpty(edt_login_mno.getText())) {
-                        edt_login_mno.requestFocus();
-                        edt_login_mno.setError("Enter Mobile No.");
+        if (ConstMethod.isInternetOn(LoginActivity.this)) {
+            if (TextUtils.isEmpty(edt_login_mno.getText())) {
+                edt_login_mno.requestFocus();
+                edt_login_mno.setError("Enter Mobile No.");
 
-                    }else if (TextUtils.isEmpty(edt_login_pass.getText())) {
-                        edt_login_pass.requestFocus();
-                        edt_login_pass.setError("Enter Password");
+            } else if (TextUtils.isEmpty(edt_login_pass.getText())) {
+                edt_login_pass.requestFocus();
+                edt_login_pass.setError("Enter Password");
 
-                    } else if (ConstMethod.isValidPassword(edt_login_pass.getText().toString())) {
+            } else if (ConstMethod.isValidPassword(edt_login_pass.getText().toString())) {
 
-                        //service call
-                        getUserLogin();
+                //service call
+                getUserLogin();
 
 
-                    } else {
-                        edt_login_pass.requestFocus();
-                        edt_login_pass.setError("Enter Valid Password");
-                    }
-                } else {
-                    ConstMethod.NetworkAlert(LoginActivity.this);
+            } else {
+                edt_login_pass.requestFocus();
+                edt_login_pass.setError("Enter Valid Password");
+            }
+        } else {
+            ConstMethod.NetworkAlert(LoginActivity.this);
 
-                }
+        }
 
 
     }
@@ -115,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
         Uri.Builder builder = new Uri.Builder();
         builder.appendQueryParameter(Const.Params.IDENTITY, id);
         builder.appendQueryParameter(Const.Params.PASSWORD, pass);
-        builder.appendQueryParameter(Const.Params.MOBILE_TOKEN, prefHelp.getDeviceToken());
-        builder.appendQueryParameter(Const.Params. MOBILE_DEVICE_ID, deviceId);
+        builder.appendQueryParameter(Const.Params.MOBILE_TOKEN, prefHelp.getFirebaseToken());
+        builder.appendQueryParameter(Const.Params.MOBILE_DEVICE_ID, deviceId);
 
         Log.e(TAG, Const.UrlClient.LOGIN_WITHCAR_URL);
         Log.e(TAG, "param  " + builder.toString());
@@ -128,51 +123,57 @@ public class LoginActivity extends AppCompatActivity {
                 myDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    if(jsonObject.getString(Const.Params.STATUS).equals(Const.Params.TRUE))
-                    {
+                    if (jsonObject.getString(Const.Params.STATUS).equals(Const.Params.TRUE)) {
                         //String str = jsonObject.getString("status");
                         JSONObject object = jsonObject.getJSONObject(Const.Params.DATA);
 
+                        // role id 3- client 4- driver with car 5-driver only
                         // get the all data in variable
 
                         String id1 = object.getString(Const.Params.ID);
                         String username = object.getString(Const.Params.USERNAME);
-                        String first_name = object.getString(Const.Params.FIRST_NAME );
+                        String first_name = object.getString(Const.Params.FIRST_NAME);
                         String email = object.getString(Const.Params.DW_EMAIL);
-                        String token = object.getString(Const.Params.TOKEN_ID );
-                        String role_id = object.getString(Const.Params.ROLE_ID );
-                        String user_details_w_id=object.getString(Const.Params.DW_USERDETAILS_ID );
-                        String user_details_v_id=object.getString(Const.Params.DV_USERDETAILS_ID );
-                        String driver_profile=object.getString(Const.Params.DW_IMAGE);
-                        String driver_type=object.getString(Const.Params.DW_TYPE);
+                        String token = object.getString(Const.Params.TOKEN_ID);
+                        String role_id = object.getString(Const.Params.ROLE_ID);
+                        String user_details_w_id = object.getString(Const.Params.DW_USERDETAILS_ID);
+                        String user_details_v_id = object.getString(Const.Params.DV_USERDETAILS_ID);
+                        String driver_profile = object.getString(Const.Params.DW_IMAGE);
+                        String driver_type = object.getString(Const.Params.DW_TYPE);
 
 
                         prefHelp.putLogin(true);
                         prefHelp.putUserId(id1);
                         prefHelp.putUsername(username);
                         prefHelp.putFIRST_NAME(first_name);
-                        prefHelp.putDW_USERDETAILS_ID(user_details_w_id);
-                        prefHelp.putDV_USERDETAILS_ID(user_details_v_id);
+                        if (role_id.equals("4")) {
+                            prefHelp.putUserDetailsId(user_details_w_id);
+
+                        } else if (role_id.equals("5")) {
+                            prefHelp.putUserDetailsId(user_details_v_id);
+
+                        }
+                        // prefHelp.putDV_USERDETAILS_ID(user_details_v_id);
                         prefHelp.putTOKEN(token);
                         prefHelp.putEmail(email);
                         prefHelp.putPROFILE_IMAGE(driver_profile);
                         prefHelp.putROLE_ID(role_id);
                         prefHelp.putDRIVER_TYPE(driver_type);
 
-                        Log.d(TAG,"USer ID "+id1);
-                        Log.d(TAG,"USer name "+username);
-                        Log.d(TAG,"USer Details ID "+first_name);
-                        Log.d(TAG,"USer Details ID "+user_details_w_id);
-                        Log.d(TAG,"USer Details ID "+user_details_v_id);
-                        Log.d(TAG,"USer Details ID "+token);
-                        Log.d(TAG,"USer Details ID "+email);
-                        Log.d(TAG,"USer Details ID "+driver_profile);
-                        Log.d(TAG,"USer Details ID "+role_id);
-                        Log.d(TAG,"USer Details ID "+driver_type);
-                        Log.d(TAG,"USer Details ID "+new PreferenceHelper(context).getDW_USERDETAILS_ID());
+                        Log.d(TAG, "USer ID " + id1);
+                        Log.d(TAG, "USer name " + username);
+                        Log.d(TAG, "USer Details ID " + first_name);
+                        Log.d(TAG, "USer driver with carid" + user_details_w_id);
+                        Log.d(TAG, "USer only driver ID " + user_details_v_id);
+                        Log.d(TAG, "USer token" + token);
+                        Log.d(TAG, "USer email " + email);
+                        Log.d(TAG, "USer driver_profile ID " + driver_profile);
+                        Log.d(TAG, "USer role_id " + role_id);
+                        Log.d(TAG, "USer driver_type " + driver_type);
+                        Log.d(TAG, "USer Details ID prefer " + new PreferenceHelper(context).getuserDetailsid());
 
                         startActivity(new Intent(context, MainActivity.class));
-                    }else {
+                    } else {
                         Toast.makeText(context, "Login fail, please try again", Toast.LENGTH_SHORT).show();
 
                     }
@@ -190,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         }, builder).execute();
-       // startActivity(new Intent(context, MainActivity.class));
+        // startActivity(new Intent(context, MainActivity.class));
     }
 
     private void init() {

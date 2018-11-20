@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0d0d0d</color>
-    <color name="colorPrimaryDark">#DFDBDA</color>
-    <color name="colorAccent">#009FFF</color>
+    <color name="colorPrimary">#33E06C</color>
+    <color name="colorPrimaryDark">#33E06C</color>
+    <color name="colorAccent">#33E06C</color>
 
     //shivani 1/10/18
     <color name="whiteTransparent">#c5ffffff</color>

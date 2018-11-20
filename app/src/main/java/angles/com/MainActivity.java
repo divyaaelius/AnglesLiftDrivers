@@ -1,6 +1,9 @@
 package angles.com;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -41,14 +45,23 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import angles.com.AsynceTask.ServiceAsync;
 import angles.com.Setting.ChangePasswordActivity;
 import angles.com.Setting.SettingsActivity;
 import angles.com.home.MapFragment;
 import angles.com.job.JobFragment;
+import angles.com.locationupdate.LocationUpdateService;
+import angles.com.login.LoginActivity;
 import angles.com.my_trip.MyTripHistoryActivity;
+import angles.com.utils.Const;
 import angles.com.utils.ConstMethod;
+import angles.com.utils.PreferenceHelper;
 import ng.max.slideview.SlideView;
 
 
@@ -59,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    String TAG = "MainActivity";
     boolean isGpsDialogShowing = false;
     private LocationManager manager;
     AlertDialog gpsAlertDialog;
@@ -68,12 +82,12 @@ public class MainActivity extends AppCompatActivity
     ProgressBar progressBarView;
     TextView tv_time;
     EditText et_timer;
-    int progress=0;
+    int progress = 0;
     CountDownTimer countDownTimer;
     int endTime = 250;
-    SlideView btn_accept_req,btn_reject_req;
+    SlideView btn_accept_req, btn_reject_req;
 
-  //  BroadcastReceiver broadcastReceiver;
+    //  BroadcastReceiver broadcastReceiver;
     IntentFilter intentFilter;
 
     @Override
@@ -95,14 +109,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Log.d(TAG, "token firebase ::::   " + new PreferenceHelper(this).getFirebaseToken() +" \n enddd ");
+
         // check the internet is on or not
         if (ConstMethod.isInternetOn(this)) {
             manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             intentFilter = new IntentFilter();
             intentFilter.addAction("ALERT_BROADCAST");
-            registerReceiver(broadcastReceiver,intentFilter);
-
+            registerReceiver(broadcastReceiver, intentFilter);
+            //startLocationUpdateService();
 
         } else {
             ConstMethod.NetworkAlert(this);
@@ -127,11 +143,14 @@ public class MainActivity extends AppCompatActivity
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 //  mLocationPermissionGranted = true;
+
                 if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     ShowGpsDialog();
 
+
                 } else {
                     removeGpsDialog();
+
                     gotoMapFragmenta();
                 }
             } else {
@@ -146,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
@@ -157,8 +177,9 @@ public class MainActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //      mLocationPermissionGranted = true;
+                    //startLocationUpdateService();
 
-                }else{
+                } else {
                     finish();
                 }
             }
@@ -192,6 +213,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            logout();
             return true;
         }/*else if(id==R.id.switchId){
 
@@ -212,15 +234,15 @@ return true;
             Intent intent = new Intent();
             intent.setAction("ALERT_BROADCAST");
             sendBroadcast(intent);
-           // DialogCalling();
+            // DialogCalling();
             // Handle the camera action
         } else if (id == R.id.nav_trp_hist) {
-            startActivity(new Intent(this,MyTripHistoryActivity.class));
+            startActivity(new Intent(this, MyTripHistoryActivity.class));
 
         } else if (id == R.id.nav_sche_tip) {
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(this,SettingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -272,10 +294,11 @@ return true;
 
         }
     }
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context,"This is the broadcast",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "This is the broadcast", Toast.LENGTH_SHORT).show();
             DialogCalling();
         }
     };
@@ -294,7 +317,7 @@ return true;
         btn_reject_req = (SlideView) promptView.findViewById(R.id.btn_reject_req);
         btn_accept_req = (SlideView) promptView.findViewById(R.id.btn_accept_req);
         progressBarView = (ProgressBar) promptView.findViewById(R.id.view_progress_bar);
-        tv_time= (TextView)promptView.findViewById(R.id.tv_timer);
+        tv_time = (TextView) promptView.findViewById(R.id.tv_timer);
 
         progressBarView.setProgress(progress);
 
@@ -311,9 +334,9 @@ return true;
                 progressBarView.setProgress(0);
                 countDownTimer.cancel();
                 alv.dismiss();
-                JobFragment fragment=new JobFragment();
-                FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame,fragment).addToBackStack(null).commit();
+                JobFragment fragment = new JobFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
 
             }
         });
@@ -334,67 +357,105 @@ return true;
         });
 
         // create an alert dialog
-        alv= alertDialogBuilder.create();
+        alv = alertDialogBuilder.create();
         alv.show();
     }
 
     private void fn_countdown() {
 
 
-            String timeInterval ="60";
-            progress = 1;
-            endTime = Integer.parseInt(timeInterval); // up to finish time
+        String timeInterval = "60";
+        progress = 1;
+        endTime = Integer.parseInt(timeInterval); // up to finish time
 
-        Log.e("End time cecking","=============>"+endTime);
+        Log.e("End time cecking", "=============>" + endTime);
 
-            countDownTimer = new CountDownTimer(endTime * 1000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
+        countDownTimer = new CountDownTimer(endTime * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
                    /* setProgress(progress, endTime);
                     progress = progress + 1;*/
-                    int seconds = (int) (millisUntilFinished / 1000) % 60;
-                    int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+                int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
 
-                    Log.e("progressbar","-------->"+progress);
+                Log.e("progressbar", "-------->" + progress);
 
-                    progress++;
-                    progressBarView.setProgress((int)progress*100/(endTime * 1000/1000));
+                progress++;
+                progressBarView.setProgress((int) progress * 100 / (endTime * 1000 / 1000));
 
 
-                    String newtime = minutes + ":" + seconds;
-                    tv_time.setText(""+String.format("%d : %d ",
-                            TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
-                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                String newtime = minutes + ":" + seconds;
+                tv_time.setText("" + String.format("%d : %d ",
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
 
-                }
+            }
 
-                @Override
-                public void onFinish() {
-                    Log.e("progressbar2","-------->"+progress);
-                    progress++;
-                    progressBarView.setProgress(100);
-                    Log.e("progressbar3","-------->"+progress);
-                   /* setProgress(progress, endTime);*/
-                    countDownTimer.cancel();
-                    alv.dismiss();
+            @Override
+            public void onFinish() {
+                Log.e("progressbar2", "-------->" + progress);
+                progress++;
+                progressBarView.setProgress(100);
+                Log.e("progressbar3", "-------->" + progress);
+                /* setProgress(progress, endTime);*/
+                countDownTimer.cancel();
+                alv.dismiss();
 
-                }
-            };
-            countDownTimer.start();
+            }
+        };
+        countDownTimer.start();
 
 
     }
 
     public void setProgress(int startTime, int endTime) {
 
-        Log.e("Star time progress ","----->"+startTime);
-        Log.e("end time progress","----->"+endTime);
+        Log.e("Star time progress ", "----->" + startTime);
+        Log.e("end time progress", "----->" + endTime);
 
        /* progressBarView.setMax(endTime);
         progressBarView.setSecondaryProgress(endTime);
         progressBarView.setProgress(startTime);*/
 
     }
+
+    public void startLocationUpdateService() {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        Intent intent = new Intent(this, LocationUpdateService.class);
+        PendingIntent pintent = PendingIntent.getService(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pintent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                1000 * 5, pintent);
+
+    }
+
+    // Change by
+    protected void stopLocationUpdateService() {
+
+        Intent intent = new Intent(this, LocationUpdateService.class);
+        PendingIntent pintent = PendingIntent.getService(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pintent);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopLocationUpdateService();
+    }
+
+    public void logout() {
+        new PreferenceHelper(this).putLogin(false);
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
 
 }

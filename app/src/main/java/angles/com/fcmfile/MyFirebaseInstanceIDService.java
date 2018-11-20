@@ -6,6 +6,8 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import angles.com.utils.PreferenceHelper;
+
 
 //Class extending FirebaseInstanceIdService
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
@@ -21,7 +23,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         //Displaying token on logcat
         Log.d(TAG, "***  Refreshed token: " + refreshedToken);
-       // new PreferHelper(this).putDeviceToken(refreshedToken);
+        new PreferenceHelper(this).putFirebaseToken(refreshedToken);
 
 
      //   sendRegistrationToServer(refreshedToken);

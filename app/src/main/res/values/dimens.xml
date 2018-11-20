@@ -30,4 +30,16 @@
     <dimen name="general_padding_4">4.0dip</dimen>
     <dimen name="general_padding_5">5.0dip</dimen>
     <dimen name="general_padding_75">75.0dip</dimen>
+    <dimen name="general_height_80">80dp</dimen>
+
+    <dimen name="marg_fivedp">5dp</dimen>
+    <dimen name="marg_tendp">10dp</dimen>
+    <dimen name="marg_fifteendp">15dp</dimen>
+    <dimen name="marg_twentydp">20dp</dimen>
+    <dimen name="marg_thirtydp">30dp</dimen>
+    <dimen name="marg_fortydp">40dp</dimen>
+    <dimen name="marg_fiftydp">50dp</dimen>
+    <dimen name="marg_sixtydp">60dp</dimen>
+    <dimen name="marg_sevntytydp">70dp</dimen>
+
 </resources>

@@ -21,7 +21,10 @@ public class Const {
     public static final int NO_REQUEST = -1;
     public static final int NO_TIME = -1;
     public static final String MANUAL = "manual";
-
+    public static final long DELAY = 0;
+    public static final long TIME_SCHEDULE = 10 * 1000;
+    public static final long DELAY_OFFLINE = 15 * 60 * 1000;
+    public static final long TIME_SCHEDULE_OFFLINE = 15 * 60 * 1000;
     public class UrlClient {
         public static final String BASE_URL = "http://192.168.137.6/angellift/index.php/api/";
         public static final String BASE_URL_IMG = BASE_URL+"assets/upload/driverwithcar/";
@@ -30,7 +33,15 @@ public class Const {
         public static final String CHANGE_PASSWORD_URL = BASE_URL + "Change_password_api/";
         public static final String GET_PROFILE_DATA = BASE_URL + "profile/Dw_profile_api/index/";
         public static final String SET_PROFILE_DATA = BASE_URL + "profile/Dw_profile_edit_api/index/";
+        // driver status 1: online 2: offline
+        public static final String GET_DRIVER_STATUS = BASE_URL + "Driver_status_api/index/";
+        public static final String SET_DRIVER_CAR_STATUS = BASE_URL + "Driver_status_api/driver_car_status";
+
+
+
+
         public static final String PROFILE_IMG = BASE_URL_IMG + "dw_image/";
+
 
 
     }
@@ -113,6 +124,13 @@ public class Const {
 
         public static final String BEARING = "bearing";
         public static final String DISTANCE = "distance";
+
+
+
+        //status
+        public static final String ONLINE_OFFLINE = "online_offline";
+        public static final String DW_STATUS = "dw_status";
+
     }
 
     // Placesurls
