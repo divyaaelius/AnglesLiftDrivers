@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import angles.com.MainActivity;
@@ -45,6 +46,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 JSONObject jobPush = new JSONObject(remoteMessage.getData());
                 String message = jobPush.getString("message");
                 sendNotification(message);
+
+                String client =jobPush.getString("client");
+                ConstMethod.LodDebug(TAG, "Message client  " + client);
+
+                JSONArray array=new JSONArray(client);
+                for (int j = 0; j <array.length() ; j++) {
+                    JSONObject object=array.getJSONObject(j);
+                    String date= object.getString("date");
+                    sendNotification(date);
+                    ConstMethod.LodDebug(TAG, "Message date  " + date);
+                }
+
+
+                ConstMethod.LodDebug(TAG, "Message data client  " );
 
             } catch (Exception e) {
                 e.printStackTrace();

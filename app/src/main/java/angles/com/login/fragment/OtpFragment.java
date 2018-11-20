@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 
 import angles.com.MainActivity;
 import angles.com.R;
+import angles.com.login.LoginActivity;
 import angles.com.utils.ConstMethod;
 import angles.com.utils.PreferenceHelper;
 
@@ -46,7 +47,7 @@ public class OtpFragment extends Fragment {
 
               //  CheckValidation();
 
-                startActivity(new Intent(getContext(), MainActivity.class));
+                startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
         otp_resend.setOnClickListener(new View.OnClickListener() {
