@@ -22,7 +22,7 @@ import angles.com.utils.ConstMethod;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
+    private static final String TAG = "MyFirebaseMsgServiceDriver";
     Bitmap bitmap;
     static int i = 1;
     private SharedPreferences preferences;
@@ -37,6 +37,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        ConstMethod.LodDebug(TAG, "Message noti : " + remoteMessage.getNotification().getBody());
 //{smallIcon=small_icon, sound=1, title=this is the title, vibrate=1, recorde_id=102, largeIcon=large_icon, message=this is the demo, tickerText=Ticker text here...Ticker text here...Ticker text here}
         ConstMethod.LodDebug(TAG, "Message data  " + remoteMessage.getData());
+        ConstMethod.LodDebug(TAG, "Message data client  " + remoteMessage.getData());
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             //  Log.d(TAG, "Message data data: " + remoteMessage.getData().get("message"));
