@@ -72,14 +72,13 @@
                         <requestFocus />
                     </LinearLayout>
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/imgSrc"
                         android:layout_width="@dimen/marg_sevntytydp"
                         android:layout_height="@dimen/marg_sevntytydp"
                         android:background="@drawable/state_pressed_ripple"
                         android:gravity="center"
-                        android:src="@drawable/ic_near_me"
-                        android:text="@string/icon_location"
+                        android:src="@drawable/lock"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_16" />
 

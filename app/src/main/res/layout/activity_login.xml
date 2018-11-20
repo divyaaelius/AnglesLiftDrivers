@@ -83,13 +83,13 @@
                         <requestFocus />
                     </LinearLayout>
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/imgSrc"
-                        android:layout_width="@dimen/marg_sevntytydp"
-                        android:layout_height="@dimen/marg_sevntytydp"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:background="@drawable/state_pressed_ripple"
                         android:gravity="center"
-                        android:src="@drawable/ic_near_me"
+                        android:src="@drawable/phone"
                         android:text="@string/icon_location"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_16" />
@@ -138,16 +138,16 @@
 
                     </LinearLayout>
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/imgSrcPwd"
-                        android:layout_width="@dimen/marg_sevntytydp"
-                        android:layout_height="@dimen/marg_sevntytydp"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:background="@drawable/state_pressed_ripple"
                         android:gravity="center"
-                        android:src="@drawable/ic_near_me"
+                        android:src="@drawable/lock"
                         android:text="@string/icon_location"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/font_16" />
+                        android:textSize="@dimen/font_16"  />
 
                 </RelativeLayout>
 

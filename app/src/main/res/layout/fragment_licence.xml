@@ -155,6 +155,7 @@
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
+                                android:src="@drawable/date"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />
@@ -206,6 +207,7 @@
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
+                                android:src="@drawable/date"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />

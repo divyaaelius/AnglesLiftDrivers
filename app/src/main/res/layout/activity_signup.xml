@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         android:padding="@dimen/general_padding_15">
 
 
@@ -28,7 +27,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_marginTop="@dimen/general_padding_10"
             android:layout_weight="1.5">
 
@@ -104,10 +102,11 @@
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
-
+                                android:src="@drawable/user"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />
+
 
                         </RelativeLayout>
 
@@ -158,9 +157,11 @@
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
+                                android:src="@drawable/phone"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />
+
 
                         </RelativeLayout>
 
@@ -210,6 +211,7 @@
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
+                                android:src="@drawable/mail"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />
@@ -262,9 +264,11 @@
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
+                                android:src="@drawable/date"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />
+
 
                         </RelativeLayout>
 
@@ -307,15 +311,16 @@
 
 
                             </LinearLayout>
-
                             <ImageButton
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
+                                android:src="@drawable/location"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />
+
 
                         </RelativeLayout>
 
@@ -364,6 +369,7 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
+                                android:src="@drawable/lock"
                                 android:gravity="center"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
@@ -417,6 +423,7 @@
                                 android:layout_height="60dp"
                                 android:background="@drawable/state_pressed_ripple"
                                 android:gravity="center"
+                                android:src="@drawable/lock"
                                 android:text="@string/icon_location"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16" />

@@ -33,7 +33,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         changePass=findViewById(R.id.changePass);
         profile_setting=findViewById(R.id.profile_setting);
-        Favadd_setting=findViewById(R.id.Favadd_setting);
 
         changePass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,12 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
                 replaceFragment(fragment);
             }
         });
-        Favadd_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
     }
     public void replaceFragment( Fragment fragTmp) {
         FragmentManager manager = getSupportFragmentManager();
